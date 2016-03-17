@@ -2,6 +2,9 @@
 - Multi Tree is supported
 - Automatically recount traversable tree inside transaction
 
+## Traversing ##
+is fully dependent on parent element (id_parent). 
+
 ## Calling ##
 ```sql
 CALL UpdateTraversable('TableName');
