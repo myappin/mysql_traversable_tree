@@ -25,15 +25,3 @@ CREATE TABLE `test_traversable` (
   CONSTRAINT `fk_test_traversable_id_parent` FOREIGN KEY (`id_parent`) REFERENCES `test_traversable` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
-
-## Result ##
-| id | id_parent | _left | _right | _nesting | 
-|----|-----------|-------|--------|----------| 
-| 1  |           | 0     | 11     | 0        | 
-| 2  | 1         | 1     | 2      | 1        | 
-| 3  | 1         | 3     | 4      | 1        | 
-| 4  | 1         | 5     | 10     | 1        | 
-| 5  | 4         | 6     | 7      | 2        | 
-| 6  | 4         | 8     | 9      | 2        | 
-| 7  |           | 14    | 17     | 0        | 
-| 8  | 7         | 15    | 16     | 1        | 
