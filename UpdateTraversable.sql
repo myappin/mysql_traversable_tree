@@ -1,5 +1,5 @@
-DROP PROCEDURE IF EXISTS development.UpdateTraversable;
-CREATE DEFINER =`workbench`@`%` PROCEDURE `UpdateTraversable`(IN tb_name VARCHAR(100))
+DROP PROCEDURE IF EXISTS UpdateTraversable;
+CREATE PROCEDURE `UpdateTraversable`(IN tb_name VARCHAR(100))
   BEGIN
     DECLARE v_rollback BOOL DEFAULT 0;
     DECLARE v_finished BOOL DEFAULT 0;

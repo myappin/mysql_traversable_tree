@@ -1,5 +1,5 @@
-DROP PROCEDURE IF EXISTS development.UpdateTraversable_Recursion;
-CREATE DEFINER =`workbench`@`%` PROCEDURE `UpdateTraversable_Recursion`(IN tb_name  VARCHAR(100), IN id_parent INT(10),
+DROP PROCEDURE IF EXISTS UpdateTraversable_Recursion;
+CREATE PROCEDURE `UpdateTraversable_Recursion`(IN tb_name  VARCHAR(100), IN id_parent INT(10),
   INOUT                                                                    _left    INT(10),
   INOUT                                                                    _right   INT(10),
                                                                         IN _nesting INT(10))
