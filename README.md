@@ -1,6 +1,9 @@
 # Mysql Traversable Tree #
+This is library containing procedures for easy recount traversable tree by parents realized by constraints in InnoDb. 
+Procedures evaluate left and right sides of leaves. 
+
 - Multi Tree is supported
-- Automatically recount traversable tree inside transaction
+- Automatically recounts traversable tree inside transaction
 
 ## Traversing ##
 is fully dependent on parent element (id_parent). 
