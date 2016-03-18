@@ -21,14 +21,14 @@ CREATE PROCEDURE `UpdateTraversable_Recursion`(IN tb_name  VARCHAR(100), IN id_p
       SET v_child_count = 0;
     END IF;
 
-    SET v_left = _left;
     SET _left = _left +1;
+    SET v_left = _left;
 
     IF (v_child_count > 0)
     THEN
       WHILE (v_child_count > v_child_count_index) DO
-        SET @query = CONCAT('SELECT `id` INTO @v_id FROM ', tb_name, ' WHERE `id_parent` = ', id_parent,
-                            ' ORDER BY `id` LIMIT ', v_child_count_index, ' ,1');
+        SET @query = CONCAT('SELECT `id` INTO @v_id FROM `_traversable_cursor_view` WHERE `id_parent` = ', id_parent,
+                            ' LIMIT ', v_child_count_index, ' ,1');
         PREPARE child FROM @query;
         EXECUTE child;
         DEALLOCATE PREPARE child;
@@ -43,7 +43,7 @@ CREATE PROCEDURE `UpdateTraversable_Recursion`(IN tb_name  VARCHAR(100), IN id_p
         SET v_child_count_index = v_child_count_index + 1;
       END WHILE;
     ELSE
-      SET _right = _left;
+      SET _right = _left +1;
     END IF;
 
     SET @query = CONCAT('UPDATE ', tb_name, ' SET `_left` = ', v_left, ', `_right` = ', _right, ', `_nesting` = ',

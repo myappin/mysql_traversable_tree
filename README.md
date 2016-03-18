@@ -20,6 +20,7 @@ This can be called manually or by event after table change (Event Scheduler).
 CREATE TABLE `test_traversable` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_parent` int(10) unsigned DEFAULT NULL,
+  `position` int(10) unsigned NOT NULL DEFAULT 0,
   `_left` int(10) unsigned DEFAULT NULL,
   `_right` int(10) unsigned DEFAULT NULL,
   `_nesting` int(10) DEFAULT NULL,

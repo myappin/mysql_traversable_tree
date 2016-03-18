@@ -10,9 +10,10 @@ CREATE PROCEDURE `UpdateTraversable`(IN tb_name VARCHAR(100))
     DECLARE v__right INT(10) DEFAULT 1;
 
     DECLARE root_cursor CURSOR FOR SELECT `id`
-                                   FROM _traversable_cursor_view
+                                   FROM `_traversable_cursor_view`
                                    WHERE `id_parent` IS NULL
-                                   ORDER BY `id`;
+                                   GROUP BY `id`
+                                   ORDER BY `position`, `id`;
 
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_finished = 1;
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
@@ -25,18 +26,25 @@ CREATE PROCEDURE `UpdateTraversable`(IN tb_name VARCHAR(100))
 
     START TRANSACTION;
 
-    SET @query = CONCAT('CREATE VIEW `_traversable_cursor_view` AS SELECT `id`, `id_parent` FROM ', tb_name,
-                        ' ORDER BY `id`');
+    SET @query = CONCAT('CREATE VIEW `_traversable_cursor_view` AS SELECT DISTINCT `id`, `id_parent`, `position` FROM ',
+                        tb_name,
+                        ' GROUP BY `id` ORDER BY `position`, `id`');
     PREPARE create_view FROM @query;
     EXECUTE create_view;
     DEALLOCATE PREPARE create_view;
 
     OPEN root_cursor;
-    REPEAT
+    read_loop: LOOP
       FETCH root_cursor
       INTO v_id;
+      IF (v_finished > 0)
+      THEN
+        LEAVE read_loop;
+      END IF;
       CALL UpdateTraversable_Recursion(tb_name, v_id, v__left, v__right, 0);
-    UNTIL v_finished END REPEAT;
+      SET v__left = v__left + 1;
+      SET v__right = v__right + 1;
+    END LOOP;
 
     DROP VIEW _traversable_cursor_view;
 
